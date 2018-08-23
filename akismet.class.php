@@ -124,13 +124,16 @@ class AkismetHttpClient extends AkismetObject {
 
 
   // Constructor
-  function AkismetHttpClient($host, $blogUrl, $apiKey, $port = 80) {
+  function __construct($host, $blogUrl, $apiKey, $port = 80) {
     $this->host = $host;
     $this->port = $port;
     $this->blogUrl = $blogUrl;
     $this->apiKey = $apiKey;
   }
 
+  function AkismetHttpClient($host, $blogUrl, $apiKey, $port = 80) {
+    self::__construct($host, $blogUrl, $apiKey, $port);
+  }
 
   // Use the connection active in $con to get a response from the server and return that response
   function getResponse($request, $path, $type = "post", $responseLength = 1160) {
@@ -223,7 +226,7 @@ class Akismet extends AkismetObject {
    * @param   String[]  $comment  A formatted comment array to be examined by the Akismet service
    * @return  Akismet
    */
-  function Akismet($blogUrl, $apiKey, $comment = array()) {
+  function __construct($blogUrl, $apiKey, $comment = array()) {
     $this->blogUrl = $blogUrl;
     $this->apiKey  = $apiKey;
     $this->setComment($comment);
@@ -238,6 +241,10 @@ class Akismet extends AkismetObject {
     if(!$this->_isValidApiKey($apiKey)) {
       $this->setError(AKISMET_INVALID_KEY, "Your Akismet API key is not valid.");
     }
+  }
+
+  function Akismet($blogUrl, $apiKey, $comment = array()) {
+      self::__construct($blogUrl, $apiKey, $comment);
   }
 
 
